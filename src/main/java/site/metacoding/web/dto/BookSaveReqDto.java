@@ -1,9 +1,11 @@
 package site.metacoding.web.dto;
 
+import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.domain.Book;
 
 @Setter //Controller에서 Setter가 호출되면서,Dto에 값이 채워짐
+@Getter
 public class BookSaveReqDto {
 	private String title;
 	private String author;
