@@ -11,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.domain.Book;
 import site.metacoding.domain.BookRepository;
 import site.metacoding.util.MailSender;
-import site.metacoding.web.dto.BookRespDto;
-import site.metacoding.web.dto.BookSaveReqDto;
+import site.metacoding.web.dto.response.BookRespDto;
+import site.metacoding.web.dto.request.BookSaveReqDto;
 
 @RequiredArgsConstructor
 @Service

@@ -1,4 +1,4 @@
-package site.metacoding.web.dto;
+package site.metacoding.web.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import site.metacoding.web.dto.BookRespDto;
+import site.metacoding.web.dto.response.BookRespDto;
 
 
 @NoArgsConstructor
