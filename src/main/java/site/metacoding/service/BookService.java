@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.domain.Book;
 import site.metacoding.domain.BookRepository;
 import site.metacoding.util.MailSender;
+import site.metacoding.web.dto.response.BookListRespDto;
 import site.metacoding.web.dto.response.BookRespDto;
 import site.metacoding.web.dto.request.BookSaveReqDto;
 
@@ -37,13 +38,16 @@ public class BookService {
 	}
 	
 	// 2.책 목록보기
-	public List<BookRespDto> 책목록보기(){
-		return bookRepository.findAll().stream()
+	public BookListRespDto 책목록보기(){
+		List<BookRespDto> dtos = bookRepository.findAll().stream()
 							//.map(bookPS -> new BookRespDto().toDTO(bookPS))
 							//.map(new BookRespDto()::toDTO)
 							.map(Book::toDto)
 						//.map(bookPS -> bookPS.toDTo()) 와같다
 							.collect(Collectors.toList());
+		BookListRespDto bookListRespDto = BookListRespDto.builder()
+				.bookList(dtos).build();
+		return bookListRespDto;
 	}
 	
 	// 3.책 한건보기
