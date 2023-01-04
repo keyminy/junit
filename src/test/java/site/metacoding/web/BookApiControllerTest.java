@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.web.bind.annotation.PathVariable;
 import site.metacoding.domain.Book;
@@ -20,6 +21,7 @@ import site.metacoding.domain.BookRepository;
 import site.metacoding.service.BookService;
 import site.metacoding.web.dto.request.BookSaveReqDto;
 
+@ActiveProfiles("dev")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookApiControllerTest {
 
@@ -138,6 +140,39 @@ public class BookApiControllerTest {
 		assertThat(title).isEqualTo("스프링1강");
 		assertThat(author).isEqualTo("겟인데어");
 	}
+
+	@Sql("classpath:db/tableInit.sql") //(BeforeEach시작 전),테이블 초기화
+	@Test
+	public void updateBook() throws Exception {
+		// given
+		Integer id = 1;
+		BookSaveReqDto bookSaveReqDto = new BookSaveReqDto();
+		//수정할 title과 author정보넣기
+		bookSaveReqDto.setTitle("spring");
+		bookSaveReqDto.setAuthor("메타코딩");
+		/*given Data를 JSON으로 변환해야하는디.. ObjectMapper를 쓰자*/
+		String body = om.writeValueAsString(bookSaveReqDto);//JSON으로 변경됨
+
+		// when
+		HttpEntity<String> request = new HttpEntity<>(body,headers);
+		ResponseEntity<String> response
+				= rt.exchange("/api/v1/book/"+id
+				, HttpMethod.PUT
+				,request
+				,String.class);
+
+		// then
+		System.out.println("updateBook_test() : " + response.getStatusCodeValue());//200
+		System.out.println("updateBook_test() : " + response.getBody());
+		//{"code":1,"msg":"글 수정 하기 성공","body":{"id":1,"title":"spring","author":"메타코딩"}}
+
+		DocumentContext dc = JsonPath.parse(response.getBody());
+		String title = dc.read("$.body.title");
+
+		//(실제값,기대값)
+		assertThat(title).isEqualTo("spring");
+	}
+
 	@Sql("classpath:db/tableInit.sql") //(BeforeEach시작 전),테이블 초기화
 	@Test
 	public void deleteBook_test(){

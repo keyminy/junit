@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import org.springframework.test.context.ActiveProfiles;
 import site.metacoding.domain.Book;
 import site.metacoding.domain.BookRepository;
 import site.metacoding.util.MailSender;
@@ -21,7 +22,7 @@ import site.metacoding.web.dto.request.BookSaveReqDto;
 
 import java.util.*;
 
-
+@ActiveProfiles("dev")
 @ExtendWith(MockitoExtension.class)
 public class BookServiceTest {
 
