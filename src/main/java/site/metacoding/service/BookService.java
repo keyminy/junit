@@ -70,7 +70,7 @@ public class BookService {
 	
 	// 5.책 수정
 	@Transactional(rollbackFor = RuntimeException.class)
-	public BookRespDto 책수정하기(Long id,BookSaveReqDto dto) { //id,title,author받음
+	public BookRespDto 책수정하기(Long id,BookSaveReqDto dto) { //id,BookSaveReqDto(title,author)받음
 		//1.해당 id의 객체 찾기
 		Optional<Book> bookOP = bookRepository.findById(id);
 		if(bookOP.isPresent()) {

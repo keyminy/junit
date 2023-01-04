@@ -43,7 +43,7 @@ public class BookRepositoryTest {
 		//given(데이터 준비)
 		String title = "junit5";
 		String author = "메타코딩";
-		/*DTO만들지 말고, 
+		/* DTO 만들지 말고,
 		 * 해당 매개변수 2개로 바로 Book Entity 만들자 */
 		Book book = Book.builder()
 						.title(title)
