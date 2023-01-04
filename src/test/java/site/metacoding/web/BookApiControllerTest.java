@@ -20,10 +20,7 @@ import site.metacoding.web.dto.request.BookSaveReqDto;
 public class BookApiControllerTest {
 
 	@Autowired
-	private BookService bookService;
-	@Autowired
 	private TestRestTemplate rt;
-
 
 	private static ObjectMapper om;
 	private static HttpHeaders headers;
