@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import site.metacoding.web.dto.response.CMRespDto;
 
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
