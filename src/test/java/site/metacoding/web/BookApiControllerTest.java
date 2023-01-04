@@ -50,8 +50,34 @@ public class BookApiControllerTest {
 
 		bookRepository.save(book);
 	}
+	@Sql("classpath:db/tableInit.sql") //(BeforeEach시작 전),테이블 초기화
+	@Test
+	public void getBookOne_test(){
+		//given(id를 받음)
+		Integer id = 1;
 
-	@Sql("classpath:db/tableInit.sql")
+		//when
+		HttpEntity<String> request = new HttpEntity<>(null,headers);
+		ResponseEntity<String> response
+				= rt.exchange("/api/v1/book/"+id
+				, HttpMethod.GET
+				,request
+				,String.class);
+
+		//System.out.println(response.getBody());
+		//{"code":1,"msg":"글 한건보기 성공","body":{"id":1,"title":"junit","author":"겟인데어"}}
+
+		//then
+		DocumentContext dc = JsonPath.parse(response.getBody());
+		int code = dc.read("$.code");
+		String title = dc.read("$.body.title");
+
+		//(실제값,기대값)
+		assertThat(code).isEqualTo(1);
+		assertThat(title).isEqualTo("junit");
+	}
+
+	@Sql("classpath:db/tableInit.sql") //(BeforeEach시작 전),테이블 초기화
 	@Test
 	public void getBookList_test() {
 		//given
@@ -111,4 +137,6 @@ public class BookApiControllerTest {
 		assertThat(title).isEqualTo("스프링1강");
 		assertThat(author).isEqualTo("겟인데어");
 	}
+
+
 }
