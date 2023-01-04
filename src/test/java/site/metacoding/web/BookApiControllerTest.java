@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.web.bind.annotation.PathVariable;
 import site.metacoding.domain.Book;
 import site.metacoding.domain.BookRepository;
 import site.metacoding.service.BookService;
@@ -137,6 +138,29 @@ public class BookApiControllerTest {
 		assertThat(title).isEqualTo("스프링1강");
 		assertThat(author).isEqualTo("겟인데어");
 	}
+	@Sql("classpath:db/tableInit.sql") //(BeforeEach시작 전),테이블 초기화
+	@Test
+	public void deleteBook_test(){
+		//given
+		Integer id = 1;
 
+		//when
+		HttpEntity<String> request = new HttpEntity<>(null,headers);
+		ResponseEntity<String> response
+				= rt.exchange("/api/v1/book/"+id
+				, HttpMethod.DELETE
+				,request
+				,String.class);
+
+		//then
+		System.out.println("deleteBook_test() : " + response.getStatusCodeValue());//200
+		System.out.println(response.getBody()); //{"code":1,"msg":"글 삭제하기 성공","body":null}
+
+		DocumentContext dc = JsonPath.parse(response.getBody());
+		int code = dc.read("$.code");
+
+		//(실제값,기대값)
+		assertThat(code).isEqualTo(1);
+	}
 
 }
